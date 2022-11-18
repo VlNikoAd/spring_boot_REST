@@ -11,17 +11,17 @@ import java.util.List;
 @Repository
 public class UserRepository {
 
-    List<User> userRepository = new ArrayList<>();
+    List<User> authorizedUsers = new ArrayList<>();
 
     {
-        userRepository.add(new User("Vlad", "123321"));
-        userRepository.add(new User("Artem", "111222"));
-        userRepository.add(new User("Andrey", "222333"));
+        authorizedUsers.add(new User("Vlad", "123321"));
+        authorizedUsers.add(new User("Artem", "111222"));
+        authorizedUsers.add(new User("Andrey", "222333"));
     }
 
     public List<Authorities> getUserAuthorities(String login, String password) {
-        for (User user : userRepository) {
-            if (user.getLogin().equals(login) && user.getPassword().equals(password)) {
+        for (User user : authorizedUsers) {
+            if (user.login().equals(login) && user.password().equals(password)) {
                 return Arrays.asList(Authorities.values());
             }
         }

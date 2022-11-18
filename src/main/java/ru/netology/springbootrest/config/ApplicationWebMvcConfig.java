@@ -19,7 +19,7 @@ public class ApplicationWebMvcConfig implements WebMvcConfigurer {
         resolvers.add(new userArgumentResolver());
     }
 
-    private class userArgumentResolver implements HandlerMethodArgumentResolver {
+    private static class userArgumentResolver implements HandlerMethodArgumentResolver {
 
         @Override
         public boolean supportsParameter(MethodParameter methodParameter) {
@@ -28,7 +28,8 @@ public class ApplicationWebMvcConfig implements WebMvcConfigurer {
 
 
         @Override
-        public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
+        public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
+                                      NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
             String login = webRequest.getParameter("user");
             String password = webRequest.getParameter("password");
             return new User(login, password);

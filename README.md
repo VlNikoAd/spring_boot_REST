@@ -47,7 +47,8 @@ public class AuthorizationService {
     }
 }
 ``` 
-Он принимает в себя логин и пароль и возвращает разрешения для этого пользователя, если такой пользователь найден и данные валидны. Если присланные данные неверны, тогда выкидывается InvalidCredentials:
+Он принимает в себя логин и пароль и возвращает разрешения для этого пользователя, если такой пользователь найден и данные валидны. 
+Если присланные данные неверны, тогда выкидывается InvalidCredentials:
 
 ```java
 public class InvalidCredentials extends RuntimeException {
@@ -80,11 +81,16 @@ public enum Authorities {
 ```java
 public class UserRepository {
     public List<Authorities> getUserAuthorities(String user, String password) {
-        return ...;
+       for (User user : authorizedUsers) {
+          if (user.getLogin().equals(login) && user.getPassword().equals(password)) {
+             return Arrays.asList(Authorities.values());
+          }
+       }
+        return new ArrayList<>();
     }
 }
 ``` 
 
-4. Теперь, когда весь код готов, то необходимо написать обработчики ошибок, которые выкидывает сервис `AuthorizationService`. Требования к ним такие:
-     - На `InvalidCredentials` он должен обратно клиенту отсылать http статус с кодом 400 и телом в виде сообщения из exception'а
-     - На `UnauthorizedUser` он должен обратно клиенту отсылать http статус с кодом 401 и телом в виде сообщения из exception'а и писать в консоль сообщение из exception'а
+4. Теперь, когда весь код готов, написал обработчики ошибок, которые выкидывает сервис `AuthorizationService`.
+     - На `InvalidCredentials` он отсылает обратно клиенту  http статус с кодом 400 и телом в виде сообщения из exception'а
+     - На `UnauthorizedUser` он отсылает обратно клиенту http статус с кодом 401 и телом в виде сообщения из exception'а и писать в консоль сообщение из exception'а
