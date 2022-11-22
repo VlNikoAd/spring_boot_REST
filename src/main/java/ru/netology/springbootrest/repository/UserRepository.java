@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public class UserRepository {
 
-    List<User> authorizedUsers = new ArrayList<>();
+    private final List<User> authorizedUsers = new ArrayList<>();
 
     {
         authorizedUsers.add(new User("Vlad", "123321"));
